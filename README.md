@@ -5,7 +5,7 @@
 
 Hello! You're looking at a guide and open source sample for Dockerized Flask apps on Azure. Specifically, we'll be using a combination of Python, the <a href="https://azure.microsoft.com/en-gb/" target="_blank">Azure</a> Portal, and <a href="https://www.docker.com/" target="_blank">Docker</a>, to build and deploy a pre-packaged text summarization model via a <a href="http://flask.pocoo.org/" target="_blank">Flask API</a>, running on a Linux image, in the cloud. 
 
-In doing so, we'll set up a pipeline for continuous iteration and deployment of your model - whether it continues to use a package like Gensim to do the heavy lifting, or consists of a pickled custom TensorFlow, CNTK, or Torch model you wish to expose as a prediction endpoint. That's assuming you're doing machine learning - you can also use this sample to bootstrap whatever alternative Python code you might want to deploy as an API!
+In doing so, we'll set up a pipeline for continuous iteration and deployment of your model - whether it continues to use a package like <a href="https://radimrehurek.com/gensim/" target="_blank">Gensim</a> to do the heavy lifting, or consists of a pickled custom TensorFlow, CNTK, or Torch model you wish to expose as a prediction endpoint. That's assuming you're doing machine learning - you can also use this sample to bootstrap whatever alternative Python code you might want to deploy as an API!
 
 As is common, it is in fact a simple process, but a poorly documented one in which your steps must be precise, and errors in the event of a misstep are often unhelpful. I'm here to help with that!
 
@@ -30,7 +30,7 @@ A few things you'll need to get set up to run and deploy this project:
 
 Whether you wish to use my text summarization example or not, it may help to use this code to bootstrap your Flask app. 
 
-Open a terminal (Powershell for example), navigate to a working directory, and enter `git clone https://github.com/masoncusack/gensimsummarizer`.
+Open a terminal (Powershell for example), navigate to a working directory, and enter `git clone https://github.com/masoncusack/buildyourownapi`.
 
 Among many things, this will get you the source code in `/app`, which I at least know builds successfully with Docker.
 
