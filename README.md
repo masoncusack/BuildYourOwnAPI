@@ -3,40 +3,40 @@
 
 ### Introduction
 
-Hello! You're looking at a guide and open source sample for Dockerized Flask apps on Azure. Specifically, we'll be using a combination of Python, the <a href="https://azure.microsoft.com/en-gb/" target="_blank">Azure</a> Portal, and <a href="https://www.docker.com/" target="_blank">Docker</a>, to build and deploy a pre-packaged text summarization model via a <a href="http://flask.pocoo.org/" target="_blank">Flask API</a>, running on a Linux image, in the cloud. 
+Hello! You're looking at a guide and open source sample for Dockerized Flask apps on Azure. Specifically, we'll be using a combination of Python, the <a>Azure</a> Portal, and <a>Docker</a>, to build and deploy a pre-packaged text summarization model via a <a>Flask API</a>, running on a Linux image, in the cloud. 
 
-In doing so, we'll set up a pipeline for continuous iteration and deployment of your model - whether it continues to use a package like <a href="https://radimrehurek.com/gensim/" target="_blank">Gensim</a> to do the heavy lifting, or consists of a pickled custom TensorFlow, CNTK, or Torch model you wish to expose as a prediction endpoint. That's assuming you're doing machine learning - you can also use this sample to bootstrap whatever alternative Python code you might want to deploy as an API!
+In doing so, we'll set up a pipeline for continuous iteration and deployment of your model - whether it continues to use a package like Gensim to do the heavy lifting, or consists of a pickled custom TensorFlow, CNTK, or Torch model you wish to expose as a prediction endpoint. That's assuming you're doing machine learning - you can also use this sample to bootstrap whatever alternative Python code you might want to deploy as an API!
 
 As is common, it is in fact a simple process, but a poorly documented one in which your steps must be precise, and errors in the event of a misstep are often unhelpful. I'm here to help with that!
 
-> Notes: 
+&gt; Notes: 
 
-> - If you are comfortable with the use and purpose of Flask and Docker and just looking for the exact steps to deployment, skip to Step 4. 
+&gt; - If you are comfortable with the use and purpose of Flask and Docker and just looking for the exact steps to deployment, skip to Step 4. 
 
-> - If you notice mistakes, details left out, are unsuccessful in using this guide, or wish to ask me a question, please go via the usual GitHub routes to request changes, or <a href="https://twitter.com/masoncusack">Tweet me</a>.
+&gt; - If you notice mistakes, details left out, are unsuccessful in using this guide, or wish to ask me a question, please go via the usual GitHub routes to request changes, or <a>Tweet me</a>.
 
 ### Prerequisites
 
 A few things you'll need to get set up to run and deploy this project:
 
  - Python 3 - download at https://python.org 
- - <a href="https://www.docker.com/docker-windows" target="_blank">Docker for Windows</a> - OG Docker will work of course. If you are running Linux, you should be able to follow along. For Windows users, make sure Docker commands are working when executed in Powershell, as that is what we will use for building and pushing images for deployment.
- - An Azure subscription, <a href="https://azure.microsoft.com/en-gb/" target="_blank">get one (or start a free trial) here</a>.
- - A code editor (I recommend <a href="https://code.visualstudio.com/" target="_blank">VS Code</a> nowadays).
- - A local git installation. <a href="https://git-scm.com/" target="_blank">Get git here</a>.
- - <a href="https://visualstudio.microsoft.com/team-services/" target="_blank">VSTS</a> and <a href="https://hub.docker.com/" target="_blank">Docker Hub</a> accounts (GitHub also useable for source code, but VSTS will be used to track our builds on deployment) 
+ - <a>Docker for Windows</a> - OG Docker will work of course. If you are running Linux, you should be able to follow along. For Windows users, make sure Docker commands are working when executed in Powershell, as that is what we will use for building and pushing images for deployment.
+ - An Azure subscription, <a>get one (or start a free trial) here</a>.
+ - A code editor (I recommend <a>VS Code</a> nowadays).
+ - A local git installation. <a>Get git here</a>.
+ - <a>VSTS</a> and <a>Docker Hub</a> accounts (GitHub also useable for source code, but VSTS will be used to track our builds on deployment) 
  
 ### Step 1: Cloning the project code and local setup
 
 Whether you wish to use my text summarization example or not, it may help to use this code to bootstrap your Flask app. 
 
-Open a terminal (Powershell for example), navigate to a working directory, and enter `git clone https://github.com/masoncusack/buildyourownapi`.
+Open a terminal (Powershell for example), navigate to a working directory, and enter `git clone https://github.com/masoncusack/gensimsummarizer`.
 
 Among many things, this will get you the source code in `/app`, which I at least know builds successfully with Docker.
 
 There is also a `requirements.txt` file which contains everything you need to run the code. If wishing to run the Python code locally (before building with docker, which will do this for you), use the command `pip install -r requirements.txt` from the `/app` directory in your favourite terminal. 
 
-> Incidentally, the `DOCKERFILE` inside the `/app` directory will do this automatically on local builds and first deployment, meaning the deployment of new functionalities can take a short time to kick in. We'll come back to that later.
+&gt; Incidentally, the `DOCKERFILE` inside the `/app` directory will do this automatically on local builds and first deployment, meaning the deployment of new functionalities can take a short time to kick in. We'll come back to that later.
 
 Anyway, after some installs, you should now be set up to run the code locally.
 
@@ -52,7 +52,7 @@ As a Python package like any other, Flask is quite easy to set up, and we do it 
 ```
 The need for `import Flask` is obvious, but note that `jsonify` will be used to format the result we deliver to the caller of our API.
 
-`from flask_cors import CORS` is then used to enable `CORS(app)` on line 8. This is simply useful for testing, as it will allow calls to the API from all potential origins, including local development builds of frontend apps. Handy, but be aware that is a security risk in practice. You can <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS" target="_blank">learn more about it here</a>.
+`from flask_cors import CORS` is then used to enable `CORS(app)` on line 8. This is simply useful for testing, as it will allow calls to the API from all potential origins, including local development builds of frontend apps. Handy, but be aware that is a security risk in practice. You can <a>learn more about it here</a>.
 
 `app = Flask(__name__)` is then simply the initialization of our app, before it is wrapped to allow cross-origin access.
 
@@ -85,7 +85,7 @@ Within each of these endpoint functions, we capture the input provided by the ca
 
 A valid query string is thus constructed as follows:
 
-```<domain-on-which-api-is-running>/<endpoint>?text=<content-for-which-we-desire-summarization-or-keywords>```
+```&lt;domain-on-which-api-is-running&gt;/&lt;endpoint&gt;?text=&lt;content-for-which-we-desire-summarization-or-keywords&gt;```
 
 Regardless of which endpoint is called in this case, the API takes the value of the input variable 'text' and uses it to compute a summary or keywords. Failure to provide an input labelled 'text' in the query string will result in a Bad Request error. 
 
@@ -103,7 +103,7 @@ Note what is returned at this root endpoint, and what happens when you change th
 
 At the root endpoint `/`, you should get the output:
 
-`Hello, World! Try the endpoints /summary?text=<yourtext> or /keywords?text=<yourtext>`
+`Hello, World! Try the endpoints /summary?text=&lt;yourtext&gt; or /keywords?text=&lt;yourtext&gt;`&lt;/yourtext&gt;&lt;/yourtext&gt;&lt;/content-for-which-we-desire-summarization-or-keywords&gt;&lt;/endpoint&gt;&lt;/domain-on-which-api-is-running&gt;
 
 ### Step 3: Docker, build!
 
@@ -117,11 +117,11 @@ After logging in to your docker hub account using `docker login --username=yourh
 
 From the root directory (above the `app` directory), run the command 
 
-`docker build app -t <docker-hub-username>/<docker-hub-project-name>:<optionaltag>`
+`docker build app -t &lt;docker-hub-username&gt;/&lt;docker-hub-project-name&gt;:&lt;optionaltag&gt;`
 
 Docker will now attempt to compile the contents of the app directory using the `DOCKERFILE` within it. You should then see lots of positive sentiments like "successfully built".
 
-![example of a successful build](./images/build.jpg)
+![example of a successful build](./build.jpg)
 
 A couple of notes on this:
 
@@ -130,7 +130,7 @@ A couple of notes on this:
 
 - So you know what you should be seeing, my Docker Hub account username is macusa, and my project title sdgsummarizerdocker. The tag `latest` is added optionally, to keep track of multiple versions with the same name. Just append it onto your project name with a colon separating, if you want it. 
 
-You can also tag an image after the fact using `docker tag <IMAGE ID> <docker-hub-username>/<project-title>:<desired-tag>`
+You can also tag an image after the fact using `docker tag <img> &lt;docker-hub-username&gt;/&lt;project-title&gt;:&lt;desired-tag&gt;`
 
 You can run and test your image locally from this point using `INSERT COMMAND HERE`
 
@@ -139,21 +139,21 @@ You can run and test your image locally from this point using `INSERT COMMAND HE
 You can run `docker images` at any time to see your recently built images. You should see your latest build at the top with its associated tag (if assigned). Note that it has been assigned an `IMAGE ID`.
 
 This is what we're going to push to Docker Hub, and then load into an Azure App Service. 
-
+&lt;/desired-tag&gt;&lt;/project-title&gt;&lt;/docker-hub-username&gt;&lt;/optionaltag&gt;&lt;/docker-hub-project-name&gt;&lt;/docker-hub-username&gt;
 
 ### Step 4: Push the latest built image to Docker Hub
 
 Check that your latest build is ready with the `docker images` command.
 
-Now run `docker push <docker-hub-username>/<project-title>`
+Now run `docker push &lt;docker-hub-username&gt;/&lt;project-title&gt;`
 
 This works much like a `git push`, so you should see progress bars, followed (perhaps in a minute or so), by a success message.
 
 It's now a good idea to go to your Docker Hub repo, and make sure that the "last pushed" time value is correct. 
 
-![view of docker hub repo with "last pushed" time value of "6 days ago"](./images/dockerhub.jpg)
+![view of docker hub repo with "last pushed" time value of "6 days ago"](./dockerhub.jpg)
 
-Immediately after a successful push, it should say "a few seconds ago".
+Immediately after a successful push, it should say "a few seconds ago".&lt;/project-title&gt;&lt;/docker-hub-username&gt;
 
 ### Step 5: Azure Web Apps for Containers
 
@@ -166,33 +166,33 @@ Just a couple of things to double check:
 
 - You have a VSTS account to use with Azure (this'll give us handy build reports and logs as we attempt to deploy on the cloud - if your build is working locally but failing on deployment, all the juicy info will be in these logs). 
 
-Open the <a href="https://portal.azure.com" target="_blank">Azure portal</a>, and click "create a resource".
+Open the <a>Azure portal</a>, and click "create a resource".
 
 Search "web app containers" and it should be the first result: "Web App for Containers" by publisher "Microsoft" in category "web". 
 
-![azure web apps for containers in marketplace/resource menu](./images/webappcontainers.jpg)
+![azure web apps for containers in marketplace/resource menu](./webappcontainers.jpg)
 
 Click this resource and then click "create".
 
 You'll be greeted by the usual screen we get upon setting up any resource in Azure. This can be the most frustrating part if you don't know what precisely to enter. The required inputs are given below.
 
-> *App Name*: All one word, this defines both the name and web domain (url) of your app, so make sure it's unique.
+&gt; *App Name*: All one word, this defines both the name and web domain (url) of your app, so make sure it's unique.
 
-> *Subscription*: The subscription you wish to use to pay for this app service and the resources it relies on.
+&gt; *Subscription*: The subscription you wish to use to pay for this app service and the resources it relies on.
 
-> *Resource group*: The resource group you with to contain the resources used by this app service (storage etc.)
+&gt; *Resource group*: The resource group you with to contain the resources used by this app service (storage etc.)
 
-> *App Service plan/Location*: Select the app service plan you want this app to use. 
+&gt; *App Service plan/Location*: Select the app service plan you want this app to use. 
 
-> *Configure container*: 
+&gt; *Configure container*: 
 
->> In this case we're deploying a single container.
+&gt;&gt; In this case we're deploying a single container.
 
->> *Image Source*: should be Docker Hub
+&gt;&gt; *Image Source*: should be Docker Hub
 
->> *Repository Access*: set to that of your Docker Hub repo (public by default)
+&gt;&gt; *Repository Access*: set to that of your Docker Hub repo (public by default)
 
->> *Image and optional tag*: the project title we've used throughout. In my case sdgsummarizerdocker.
+&gt;&gt; *Image and optional tag*: the `REPOSITORY` upon running `docker images`. If you've been following along, it will follow the pattern `docker-hub-username/project-title`.
 
 Once these are filled, check the box "pin to dashboard" and click "create".
 
@@ -204,43 +204,45 @@ Go to your Azure portal dashboard and locate the app service you just created.
 
 Click on it, and navigate in the service's side menu to "Deployment Center (Preview)". Once there, click "Configure" (pictured below).
 
-![Deployment center as visible from the app service menu](./images/appservicedeploymentcenter.jpg)
+![Deployment center as visible from the app service menu](./appservicedeploymentcenter.jpg)
 
 This'll open up another side menu with fields to fill. Required inputs are below.
 
-> *Source code*:
+&gt; *Source code*:
 
-    >> *Code repository*: Select whether to deploy from GitHub or VSTS.
+    &gt;&gt; *Code repository*: Select whether to deploy from GitHub or VSTS.
     
-    >> *Repository*: Select from here which repo to use to pull your latest source code from. 
+    &gt;&gt; *Repository*: Select from here which repo to use to pull your latest source code from. 
     
-    >> *Branch*: Which branch should Azure use for deployment? You may want to keep a branch separate just for this, or use Master.
+    &gt;&gt; *Branch*: Which branch should Azure use for deployment? You may want to keep a branch separate just for this, or use Master.
     
-> *Container image source*: your image source and image name will be set for you as a result of the previous setup, but here you need to provide
+&gt; *Container image source*: your image source and image name will be set for you as a result of the previous setup, but here you need to provide
     
-    >> *Username*: Your Docker Hub username
+    &gt;&gt; *Username*: Your Docker Hub username
     
-    >> *Password*: Your Docker Hub password
+    &gt;&gt; *Password*: Your Docker Hub password
     
-    >> *Startup command*: Forget this, as in our case the command first run upon building the image is provided in the DOCKERFILE.
+    &gt;&gt; *Startup command*: Forget this, as in our case the command first run upon building the image is provided in the DOCKERFILE.
     
-    >> *Dockerfile path*: This is important. It's relative to the root directory of our source repo, and is how the app will find our dockerfile in order to build the image and run our API. In our case therefore it's `app/DOCKERFILE`  
+    &gt;&gt; *Dockerfile path*: This is important. It's relative to the root directory of our source repo, and is how the app will find our dockerfile in order to build the image and run our API. In our case therefore it's `src/app/DOCKERFILE`  
     
-> *Team Services*: in this section you'll set up the connection to the VSTS account which you'll use to build and deploy the Docker image. It'll also give you access to detailed logs and reports for the build process as mentioned earlier.  
+&gt; *Team Services*: in this section you'll set up the connection to the VSTS account which you'll use to build and deploy the Docker image. It'll also give you access to detailed logs and reports for the build process as mentioned earlier.  
     
-    >> *Account name*: Select the VSTS account you wish to use for this from the dropdown.
+    &gt;&gt; *Account name*: Select the VSTS account you wish to use for this from the dropdown.
     
-    >> *Project name*: Select the Project associated with that account that you'd like to build from. 
+    &gt;&gt; *Project name*: Select the Project associated with that account that you'd like to build from. 
     
-    >> Note you can also create a new account if you don't have one yet, in which case this part of the setup will be slightly different.
+    &gt;&gt; Note you can also create a new account if you don't have one yet, in which case this part of the setup will be slightly different.
     
-> *Deploy*:  
+&gt; *Deploy*:  
     
-    >> *Deploy to staging*: Select `Yes` if you want to deploy a preview version of the API before a production version, so you can demo it and test it before going live. In this case '-deployment-slot-name' (your next input) will be appended to the end of the deployed endpoint (url), before 'azurewebsites.net'. For example https://sdgsummarizerdocker-staging.azurewebsites.net is a staging slot of the web app sdgsummarizerdocker, for which the deployment slot was named 'staging'.
+    &gt;&gt; *Deploy to staging*: Select `Yes` if you want to deploy a preview version of the API before a production version, so you can demo it and test it before going live. In this case '-deployment-slot-name' (your next input) will be appended to the end of the deployed endpoint (url), before 'azurewebsites.net'. For example https://sdgsummarizerdocker-staging.azurewebsites.net is a staging slot of the web app sdgsummarizerdocker, for which the deployment slot was named 'staging'.
     
-    >> *Deployment slot*: On first deployment you'll have to create a new slot. Call it whatever you want. Accept the default `staging` if you're okay with that, but if wanting to keep it more private, you could create and use a random GUID you only give to your team for testing, or use a keyphrase.
+    &gt;&gt; *Deployment slot*: On first deployment you'll have to create a new slot. Call it whatever you want. Accept the default `staging` if you're okay with that, but if wanting to keep it more private, you could create and use a random GUID you only give to your team for testing, or use a keyphrase.
     
 Note that whatever you do, this endpoint will be public once deployed. If wanting to test your API offline, just run the flask app locally and test against localhost. 
+
+Note also that you will have to click "ok" at the bottom of the current blade after entering each of these, to save your changes.
 
 ### Step 7: Sync and deploy!
 
