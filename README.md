@@ -11,9 +11,9 @@ As is common, it is in fact a simple process, but a poorly documented one in whi
 
 > Notes: 
 
-> - If you are comfortable with the use and purpose of Flask and Docker and just looking for the exact steps to deployment, skip to Step 4. 
+> If you are comfortable with the use and purpose of Flask and Docker and just looking for the exact steps to deployment, skip to Step 4. 
 
-> - If you notice mistakes, details left out, are unsuccessful in using this guide, or wish to ask me a question, please go via the usual GitHub routes to request changes, or <a href="https://twitter.com/masoncusack">Tweet me</a>.
+> If you notice mistakes, details left out, are unsuccessful in using this guide, or wish to ask me a question, please go via the usual GitHub routes to request changes, or <a href="https://twitter.com/masoncusack">Tweet me</a>.
 
 ### Prerequisites
 
@@ -32,11 +32,11 @@ Whether you wish to use my text summarization example or not, it may help to use
 
 Open a terminal (Powershell for example), navigate to a working directory, and enter `git clone https://github.com/masoncusack/buildyourownapi`.
 
-Among many things, this will get you the source code in `/app`, which I at least know builds successfully with Docker.
+Among many things, this will get you the source code in `/src/app`, which I at least know builds successfully with Docker.
 
 There is also a `requirements.txt` file which contains everything you need to run the code. If wishing to run the Python code locally (before building with docker, which will do this for you), use the command `pip install -r requirements.txt` from the `/app` directory in your favourite terminal. 
 
-> Incidentally, the `DOCKERFILE` inside the `/app` directory will do this automatically on local builds and first deployment, meaning the deployment of new functionalities can take a short time to kick in. We'll come back to that later.
+- Incidentally, the `DOCKERFILE` inside the `/app` directory will do this automatically on local builds and first deployment, meaning the deployment of new functionalities can take a short time to kick in. We'll come back to that later.
 
 Anyway, after some installs, you should now be set up to run the code locally.
 
@@ -87,7 +87,7 @@ A valid query string is thus constructed as follows:
 
 ```<domain-on-which-api-is-running>/<endpoint>?text=<content-for-which-we-desire-summarization-or-keywords>```
 
-Regardless of which endpoint is called in this case, the API takes the value of the input variable 'text' and uses it to compute a summary or keywords. Failure to provide an input labelled 'text' in the query string will result in a Bad Request error. 
+Regardless of which endpoint is called in this case, the API takes the value of the input variable 'text' and uses it to compute a summary or keywords. Failure to provide an input labelled 'text' in the query string will result in a Bad Request error or similar.
 
 #### Running and testing
 
@@ -210,35 +210,35 @@ This'll open up another side menu with fields to fill. Required inputs are below
 
 > *Source code*:
 
-    >> *Code repository*: Select whether to deploy from GitHub or VSTS.
+    - *Code repository*: Select whether to deploy from GitHub or VSTS.
     
-    >> *Repository*: Select from here which repo to use to pull your latest source code from. 
+    - *Repository*: Select from here which repo to use to pull your latest source code from. 
     
-    >> *Branch*: Which branch should Azure use for deployment? You may want to keep a branch separate just for this, or use Master.
+    - *Branch*: Which branch should Azure use for deployment? You may want to keep a branch separate just for this, or use Master.
     
 > *Container image source*: your image source and image name will be set for you as a result of the previous setup, but here you need to provide
     
-    >> *Username*: Your Docker Hub username
+    - *Username*: Your Docker Hub username
     
-    >> *Password*: Your Docker Hub password
+    - *Password*: Your Docker Hub password
     
-    >> *Startup command*: Forget this, as in our case the command first run upon building the image is provided in the DOCKERFILE.
+    - *Startup command*: Forget this, as in our case the command first run upon building the image is provided in the DOCKERFILE.
     
-    >> *Dockerfile path*: This is important. It's relative to the root directory of our source repo, and is how the app will find our dockerfile in order to build the image and run our API. In our case therefore it's `app/DOCKERFILE`  
+    - *Dockerfile path*: This is important. It's relative to the root directory of our source repo, and is how the app will find our dockerfile in order to build the image and run our API. In our case therefore it's `src/app/DOCKERFILE`.
     
 > *Team Services*: in this section you'll set up the connection to the VSTS account which you'll use to build and deploy the Docker image. It'll also give you access to detailed logs and reports for the build process as mentioned earlier.  
     
-    >> *Account name*: Select the VSTS account you wish to use for this from the dropdown.
+    - *Account name*: Select the VSTS account you wish to use for this from the dropdown.
     
-    >> *Project name*: Select the Project associated with that account that you'd like to build from. 
+    - *Project name*: Select the Project associated with that account that you'd like to build from. 
     
-    >> Note you can also create a new account if you don't have one yet, in which case this part of the setup will be slightly different.
+    - Note you can also create a new account if you don't have one yet, in which case this part of the setup will be slightly different.
     
 > *Deploy*:  
     
-    >> *Deploy to staging*: Select `Yes` if you want to deploy a preview version of the API before a production version, so you can demo it and test it before going live. In this case '-deployment-slot-name' (your next input) will be appended to the end of the deployed endpoint (url), before 'azurewebsites.net'. For example https://sdgsummarizerdocker-staging.azurewebsites.net is a staging slot of the web app sdgsummarizerdocker, for which the deployment slot was named 'staging'.
+    - *Deploy to staging*: Select `Yes` if you want to deploy a preview version of the API before a production version, so you can demo it and test it before going live. In this case '-deployment-slot-name' (your next input) will be appended to the end of the deployed endpoint (url), before 'azurewebsites.net'. For example https://sdgsummarizerdocker-staging.azurewebsites.net is a staging slot of the web app sdgsummarizerdocker, for which the deployment slot was named 'staging'.
     
-    >> *Deployment slot*: On first deployment you'll have to create a new slot. Call it whatever you want. Accept the default `staging` if you're okay with that, but if wanting to keep it more private, you could create and use a random GUID you only give to your team for testing, or use a keyphrase.
+    - *Deployment slot*: On first deployment you'll have to create a new slot. Call it whatever you want. Accept the default `staging` if you're okay with that, but if wanting to keep it more private, you could create and use a random GUID you only give to your team for testing, or use a keyphrase.
     
 Note that whatever you do, this endpoint will be public once deployed. If wanting to test your API offline, just run the flask app locally and test against localhost. 
 
@@ -246,7 +246,19 @@ Note that whatever you do, this endpoint will be public once deployed. If wantin
 
 Finally, click "ok" and you'll be taken back to the deployment center to watch as your API deploys. If you don't get a notification 'deploying' or 'deploying in progress', or see any other signs of life, click "sync" from within the deployment center to kick it into action.
 
-In future, after committing new source code or Docker images, you can deploy to this endpoint again just by clicking "sync" from here.
+In the Deployment Center after a few minutes of "configuring deployment" you should see:
+
+![Deployment center upon successful deployment](./images/successfulBuildSetup.jpg)
+
+Which means your app has deployed successfully on the cloud. It does not, however, tell us the most important thing - whether your app has built successfully once deployed. This we can check by selecting "build definition" under Successfully setup Continuous Delivery and triggered build" in the deployment center.
+
+This will take us to the VSTS project used to build the docker image, in which you should see:
+
+![Deployment center upon successful deployment](./images/successfulBuildVSTS.jpg)
+
+If instead it says "failed", click the latest entry under "Recently Completed" to view the logs and see what went wrong.
+
+In future, after committing new source code or Docker images, you can ensure redeployment of your updated API just by clicking "sync" from the Deployment Center, though it should theoretically kick in immediately after you've pushed.
 
 
 ### Test your API
@@ -263,8 +275,16 @@ Note:
 - You can take the url of this endpoint (now in the address bar of your browser) and call it again at any point in the future (not only from the Azure portal).
 
 
-- The way the sample is set up, on calling this root endpoint, instructions for other endpoints to try (including for summarization and keywords) will be returned, with the message "Hello, World!". Try using these endpoints, by pasting your own text into the query string as variable `text`. Note that for keywords to be returned, you will need a substantial body of text. I'd suggest using a news article or similar. 
+- The way the sample is set up, on calling this root endpoint, instructions for other endpoints to try (including for summarization and keywords) will be returned, with the message "Hello, World!". Try using these endpoints, by pasting your own text into the query string as variable `text`. Note that for both summary adn keywords to be returned, you will need a substantial body of text. I'd suggest using a news article or similar. Too little text and with this code you'll cause an internal server error (a good extension task for both of us would be to handle this error in the eventuality that the received text body is too small for gensim to process). 
 
-### Conclusion and what to do in case of problems
+### Conclusion
 
-There you have it!...
+There you have it! You've built a custom API using Python, Flask, Docker, and hosted it in the Azure cloud. Please let me know what you build with this new capability.
+
+And of course if you had any problems or questions along the way, please submit an issue, <a href="mailto:t-macusa@microsoft.com?Subject=BuildYourOwnAPI">email me at t-macusa@microsoft.com</a>, or <a href="https://twitter.com/masoncusack">tweet me</a> at @masoncusack.
+
+### Common problems
+
+*I'll be updating this entry over the next few days with common errors and problems that can occur during setup. Though it seems simple, with one wrong move this can be a fiddly process, and it took me a full day to figure out precisely what to enter where in order to set things up properly and get my web app running.
+
+Of course, if you notice a bug or common "gotcha" that I haven't, feel free to suggest new additions to this section. I think all good documentation should have examples of common errors, and tips on to fix them.*
