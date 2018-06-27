@@ -1,4 +1,3 @@
-
 # Build-Your-Own API: Write and Deploy Dockerized Flask Apps on Azure
 
 ### Introduction
@@ -97,7 +96,7 @@ Note the following line in the main function:
 
 This sets the app up to run by default on the localhost address (127.0.0.1) of the system/image it's started on.
 
-You can run the flask app locally using `export FLASK_APP=app.py` from within `/app`, and go to `http://127.0.0.1:5000` to see it in action (5000 is the default port).
+You can run the flask app locally using `python app.py` from within `src/app`, and go to `http://127.0.0.1:5000` to see it in action (5000 is the default port). You may need to install flask locally using `pip install Flask` before this will work.
 
 Note what is returned at this root endpoint, and what happens when you change the endpoint and provide an input.
 
@@ -128,11 +127,16 @@ A couple of notes on this:
 - My system is building from cache because I've already run this command before. Unless you tell it to, docker won't run python installations it's instructed to in the dockerfile on the local image if it doesn't detect changes to requirements.txt. Bear in mind therefore that build times can vary.
 
 
-- So you know what you should be seeing, my Docker Hub account username is macusa, and my project title sdgsummarizerdocker. The tag `latest` is added optionally, to keep track of multiple versions with the same name. Just append it onto your project name with a colon separating, if you want it. 
+- So you know what you should be seeing, in this case my Docker Hub account username is macusa, and my project title sdgsummarizerdocker. The tag `latest` is added optionally, to keep track of multiple versions with the same name. Just append it onto your project name with a colon separating, if you want it. 
 
 You can also tag an image after the fact using `docker tag your-image docker-hub-username/project-title:desired-tag`
 
-You can run and test your image locally from this point using `INSERT COMMAND HERE`
+You can run and test your container locally from this point using `docker run REPOSITORY`, where `REPOSITORY` is the value in the column with heading `REPOSITORY` when you run `docker images`. If following along, it should be `docker-hub-username/project-title`.
+
+Note that the Docker container may take longer to kick in than the Flask app when running locally.
+
+At any time, you can use the command `docker ps` to view currently running containers and their status.
+//TODO: successfully test locally running docker container and finalise instruction (doesn't run at 127.0.0.1:5000 as with Flask)
 
 #### Push, push, push!
 
@@ -236,7 +240,7 @@ This'll open up another side menu with fields to fill. Required inputs are below
     
 > *Deploy*:  
     
-- *Deploy to staging*: Select `Yes` if you want to deploy a preview version of the API before a production version, so you can demo it and test it before going live. In this case '-deployment-slot-name' (your next input) will be appended to the end of the deployed endpoint (url), before 'azurewebsites.net'. For example https://sdgsummarizerdocker-staging.azurewebsites.net is a staging slot of the web app sdgsummarizerdocker, for which the deployment slot was named 'staging'.
+- *Deploy to staging*: Select `Yes` if you want to deploy a preview version of the API before a production version, so you can demo it and test it before going live. In this case '-deployment-slot-name' (your next input) will be appended to the end of the deployed endpoint (url), before 'azurewebsites.net'. For example https://buildyourownapi-staging.azurewebsites.net is a staging slot of the web app buildyourownapi, for which the deployment slot was named 'staging'.
 
 - *Deployment slot*: On first deployment you'll have to create a new slot. Call it whatever you want. Accept the default `staging` if you're okay with that, but if wanting to keep it more private, you could create and use a random GUID you only give to your team for testing, or use a keyphrase.
     
@@ -277,7 +281,7 @@ Note:
 - You can take the url of this endpoint (now in the address bar of your browser) and call it again at any point in the future (not only from the Azure portal).
 
 
-- The way the sample is set up, on calling this root endpoint, instructions for other endpoints to try (including for summarization and keywords) will be returned, with the message "Hello, World!". Try using these endpoints, by pasting your own text into the query string as variable `text`. Note that for both summary adn keywords to be returned, you will need a substantial body of text. I'd suggest using a news article or similar. Too little text and with this code you'll cause an internal server error (a good extension task for both of us would be to handle this error in the eventuality that the received text body is too small for gensim to process). 
+- The way the sample is set up, on calling this root endpoint, instructions for other endpoints to try (including for summarization and keywords) will be returned, with the message "Hello, World!". Try using these endpoints, by pasting your own text into the query string as variable `text`. Note that for both summary adn keywords to be returned, you will need a substantial body of text. I'd suggest using a news article or similar. Too little text and with this code you'll cause an internal server error (a good extension task for both of us would be to handle this error in the eventuality that the received text body is too small for gensim to process).
 
 ### Conclusion
 
@@ -287,6 +291,6 @@ And of course if you had any problems or questions along the way, please submit 
 
 ### Common problems
 
-*I'll be updating this entry over the next few days with common errors and problems that can occur during setup. Though it seems simple, with one wrong move this can be a fiddly process, and it took me a full day to figure out precisely what to enter where in order to set things up properly and get my web app running.
+I'll be updating this entry over the next few days with common errors and problems that can occur during setup. Though it seems simple, with one wrong move this can be a fiddly process, and it took me a full day to figure out precisely what to enter where in order to set things up properly and get my web app running.
 
-Of course, if you notice a bug or common "gotcha" that I haven't, feel free to suggest new additions to this section. I think all good documentation should have examples of common errors, and tips on to fix them.*
+Of course, if you notice a bug or common "gotcha" that I haven't, feel free to suggest new additions to this section. I think all good documentation should have examples of common errors, and tips on to fix them.
