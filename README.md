@@ -214,7 +214,7 @@ This'll open up another side menu with fields to fill. Required inputs are below
     
 - *Repository*: Select from here which repo to use to pull your latest source code from. 
     
-- *Branch*: Which branch should Azure use for deployment? You may want to keep a branch separate just for this, or use Master.
+    - *Branch*: Which branch should Azure use for deployment? You may want to keep a branch separate just for this, or use Master.
     
 > *Container image source*: your image source and image name will be set for you as a result of the previous setup, but here you need to provide
     
