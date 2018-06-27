@@ -29,7 +29,7 @@ A few things you'll need to get set up to run and deploy this project:
 
 Whether you wish to use my text summarization example or not, it may help to use this code to bootstrap your Flask app. 
 
-Open a terminal (Powershell for example), navigate to a working directory, and enter `git clone https://github.com/masoncusack/gensimsummarizer`.
+Open a terminal (Powershell for example), navigate to a working directory, and enter `git clone https://github.com/masoncusack/buildyourownapi`.
 
 Among many things, this will get you the source code in `/src/app`, which I at least know builds successfully with Docker.
 
