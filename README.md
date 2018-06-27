@@ -4,7 +4,7 @@
 
 Hello! You're looking at a guide and open source sample for Dockerized Flask apps on Azure. Specifically, we'll be using a combination of Python, the <a href="https://azure.microsoft.com/en-gb/">Azure</a> Portal, and <a href="https://www.docker.com/">Docker</a>, to build and deploy a pre-packaged text summarization model via a <a href="http://flask.pocoo.org/">Flask API</a>, running on a Linux image, in the cloud.
 
-In doing so, we'll set up a pipeline for continuous iteration and deployment of your model - whether it continues to use a package like Gensim to do the heavy lifting, or consists of a pickled custom TensorFlow, CNTK, or Torch model you wish to expose as a prediction endpoint. That's assuming you're doing machine learning - you can also use this sample to bootstrap whatever alternative Python code you might want to deploy as an API!
+In doing so, we'll set up a pipeline for continuous iteration and deployment of your script - whether it continues to use a package like Gensim to do the heavy lifting, or consists of a pickled custom TensorFlow, CNTK, or Torch model you wish to expose as a prediction endpoint. That's assuming you're doing machine learning - you can also use this sample to bootstrap any alternative Python code you might want to deploy as an API!
 
 As is common, it is in fact a simple process, but a poorly documented one in which your steps must be precise, and errors in the event of a misstep are often unhelpful. I'm here to help with that!
 
@@ -12,7 +12,7 @@ Notes:
 
 - If you are comfortable with the use and purpose of Flask and Docker and just looking for the exact steps to deployment, skip to Step 4. 
 
-- If you notice mistakes, details left out, are unsuccessful in using this guide, or wish to ask me a question, please go via the usual GitHub routes to request changes, or <a href="https://twitter.com/masoncusack">Tweet me</a>.
+- If you notice mistakes, details left out, are unsuccessful in using this guide, or wish to ask me a question, please go via the usual GitHub routes to request changes, or <a href="https://twitter.com/masoncusack">tweet me</a>.
 
 ### Prerequisites
 
