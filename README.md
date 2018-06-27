@@ -11,15 +11,9 @@ As is common, it is in fact a simple process, but a poorly documented one in whi
 
 &gt; Notes: 
 
-<<<<<<< HEAD
 &gt; - If you are comfortable with the use and purpose of Flask and Docker and just looking for the exact steps to deployment, skip to Step 4. 
 
 &gt; - If you notice mistakes, details left out, are unsuccessful in using this guide, or wish to ask me a question, please go via the usual GitHub routes to request changes, or <a>Tweet me</a>.
-=======
-> If you are comfortable with the use and purpose of Flask and Docker and just looking for the exact steps to deployment, skip to Step 4. 
-
-> If you notice mistakes, details left out, are unsuccessful in using this guide, or wish to ask me a question, please go via the usual GitHub routes to request changes, or <a href="https://twitter.com/masoncusack">Tweet me</a>.
->>>>>>> 835a036321e862a3b97cbdff1ca4221bebe42980
 
 ### Prerequisites
 
@@ -42,11 +36,7 @@ Among many things, this will get you the source code in `/src/app`, which I at l
 
 There is also a `requirements.txt` file which contains everything you need to run the code. If wishing to run the Python code locally (before building with docker, which will do this for you), use the command `pip install -r requirements.txt` from the `/app` directory in your favourite terminal. 
 
-<<<<<<< HEAD
 &gt; Incidentally, the `DOCKERFILE` inside the `/app` directory will do this automatically on local builds and first deployment, meaning the deployment of new functionalities can take a short time to kick in. We'll come back to that later.
-=======
-- Incidentally, the `DOCKERFILE` inside the `/app` directory will do this automatically on local builds and first deployment, meaning the deployment of new functionalities can take a short time to kick in. We'll come back to that later.
->>>>>>> 835a036321e862a3b97cbdff1ca4221bebe42980
 
 Anyway, after some installs, you should now be set up to run the code locally.
 
@@ -220,23 +210,14 @@ This'll open up another side menu with fields to fill. Required inputs are below
 
 &gt; *Source code*:
 
-<<<<<<< HEAD
     &gt;&gt; *Code repository*: Select whether to deploy from GitHub or VSTS.
     
     &gt;&gt; *Repository*: Select from here which repo to use to pull your latest source code from. 
     
     &gt;&gt; *Branch*: Which branch should Azure use for deployment? You may want to keep a branch separate just for this, or use Master.
-=======
-- *Code repository*: Select whether to deploy from GitHub or VSTS.
-    
-- *Repository*: Select from here which repo to use to pull your latest source code from. 
-    
-    - *Branch*: Which branch should Azure use for deployment? You may want to keep a branch separate just for this, or use Master.
->>>>>>> 835a036321e862a3b97cbdff1ca4221bebe42980
     
 &gt; *Container image source*: your image source and image name will be set for you as a result of the previous setup, but here you need to provide
     
-<<<<<<< HEAD
     &gt;&gt; *Username*: Your Docker Hub username
     
     &gt;&gt; *Password*: Your Docker Hub password
@@ -244,43 +225,20 @@ This'll open up another side menu with fields to fill. Required inputs are below
     &gt;&gt; *Startup command*: Forget this, as in our case the command first run upon building the image is provided in the DOCKERFILE.
     
     &gt;&gt; *Dockerfile path*: This is important. It's relative to the root directory of our source repo, and is how the app will find our dockerfile in order to build the image and run our API. In our case therefore it's `src/app/DOCKERFILE`  
-=======
-- *Username*: Your Docker Hub username
-    
-- *Password*: Your Docker Hub password
-    
-- *Startup command*: Forget this, as in our case the command first run upon building the image is provided in the DOCKERFILE.
-    
-- *Dockerfile path*: This is important. It's relative to the root directory of our source repo, and is how the app will find our dockerfile in order to build the image and run our API. In our case therefore it's `src/app/DOCKERFILE`.
->>>>>>> 835a036321e862a3b97cbdff1ca4221bebe42980
     
 &gt; *Team Services*: in this section you'll set up the connection to the VSTS account which you'll use to build and deploy the Docker image. It'll also give you access to detailed logs and reports for the build process as mentioned earlier.  
     
-<<<<<<< HEAD
     &gt;&gt; *Account name*: Select the VSTS account you wish to use for this from the dropdown.
     
     &gt;&gt; *Project name*: Select the Project associated with that account that you'd like to build from. 
     
     &gt;&gt; Note you can also create a new account if you don't have one yet, in which case this part of the setup will be slightly different.
-=======
-- *Account name*: Select the VSTS account you wish to use for this from the dropdown.
-    
-- *Project name*: Select the Project associated with that account that you'd like to build from. 
-    
-- Note you can also create a new account if you don't have one yet, in which case this part of the setup will be slightly different.
->>>>>>> 835a036321e862a3b97cbdff1ca4221bebe42980
     
 &gt; *Deploy*:  
     
-<<<<<<< HEAD
     &gt;&gt; *Deploy to staging*: Select `Yes` if you want to deploy a preview version of the API before a production version, so you can demo it and test it before going live. In this case '-deployment-slot-name' (your next input) will be appended to the end of the deployed endpoint (url), before 'azurewebsites.net'. For example https://sdgsummarizerdocker-staging.azurewebsites.net is a staging slot of the web app sdgsummarizerdocker, for which the deployment slot was named 'staging'.
     
     &gt;&gt; *Deployment slot*: On first deployment you'll have to create a new slot. Call it whatever you want. Accept the default `staging` if you're okay with that, but if wanting to keep it more private, you could create and use a random GUID you only give to your team for testing, or use a keyphrase.
-=======
-- *Deploy to staging*: Select `Yes` if you want to deploy a preview version of the API before a production version, so you can demo it and test it before going live. In this case '-deployment-slot-name' (your next input) will be appended to the end of the deployed endpoint (url), before 'azurewebsites.net'. For example https://sdgsummarizerdocker-staging.azurewebsites.net is a staging slot of the web app sdgsummarizerdocker, for which the deployment slot was named 'staging'.
-    
-- *Deployment slot*: On first deployment you'll have to create a new slot. Call it whatever you want. Accept the default `staging` if you're okay with that, but if wanting to keep it more private, you could create and use a random GUID you only give to your team for testing, or use a keyphrase.
->>>>>>> 835a036321e862a3b97cbdff1ca4221bebe42980
     
 Note that whatever you do, this endpoint will be public once deployed. If wanting to test your API offline, just run the flask app locally and test against localhost. 
 
