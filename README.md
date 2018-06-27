@@ -121,7 +121,7 @@ From the root directory (above the `app` directory), run the command
 
 Docker will now attempt to compile the contents of the app directory using the `DOCKERFILE` within it. You should then see lots of positive sentiments like "successfully built".
 
-![example of a successful build](./build.jpg)
+![example of a successful build](./images/build.jpg)
 
 A couple of notes on this:
 
@@ -151,7 +151,7 @@ This works much like a `git push`, so you should see progress bars, followed (pe
 
 It's now a good idea to go to your Docker Hub repo, and make sure that the "last pushed" time value is correct.
 
-![view of docker hub repo with "last pushed" time value of "6 days ago"](./dockerhub.jpg)
+![view of docker hub repo with "last pushed" time value of "6 days ago"](./images/dockerhub.jpg)
 
 Immediately after a successful push, it should say "a few seconds ago"./project-title/docker-hub-username
 
@@ -170,7 +170,7 @@ Open the <a href="https://portal.azure.com">Azure portal</a>, and click "create 
 
 Search "web app containers" and it should be the first result: "Web App for Containers" by publisher "Microsoft" in category "web". 
 
-![azure web apps for containers in marketplace/resource menu](./webappcontainers.jpg)
+![azure web apps for containers in marketplace/resource menu](./images/webappcontainers.jpg)
 
 Click this resource and then click "create".
 
@@ -204,7 +204,7 @@ Go to your Azure portal dashboard and locate the app service you just created.
 
 Click on it, and navigate in the service's side menu to "Deployment Center (Preview)". Once there, click "Configure" (pictured below).
 
-![Deployment center as visible from the app service menu](./appservicedeploymentcenter.jpg)
+![Deployment center as visible from the app service menu](./images/appservicedeploymentcenter.jpg)
 
 This'll open up another side menu with fields to fill. Required inputs are below.
 
