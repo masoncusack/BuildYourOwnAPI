@@ -3,7 +3,7 @@
 
 ### Introduction
 
-Hello! You're looking at a guide and open source sample for Dockerized Flask apps on Azure. Specifically, we'll be using a combination of Python, the <a>Azure</a> Portal, and <a>Docker</a>, to build and deploy a pre-packaged text summarization model via a <a>Flask API</a>, running on a Linux image, in the cloud. 
+Hello! You're looking at a guide and open source sample for Dockerized Flask apps on Azure. Specifically, we'll be using a combination of Python, the <a href="https://azure.microsoft.com/en-gb/">Azure</a> Portal, and <a href="https://www.docker.com/">Docker</a>, to build and deploy a pre-packaged text summarization model via a <a href="http://flask.pocoo.org/">Flask API</a>, running on a Linux image, in the cloud.
 
 In doing so, we'll set up a pipeline for continuous iteration and deployment of your model - whether it continues to use a package like Gensim to do the heavy lifting, or consists of a pickled custom TensorFlow, CNTK, or Torch model you wish to expose as a prediction endpoint. That's assuming you're doing machine learning - you can also use this sample to bootstrap whatever alternative Python code you might want to deploy as an API!
 
@@ -13,18 +13,18 @@ Notes:
 
 - If you are comfortable with the use and purpose of Flask and Docker and just looking for the exact steps to deployment, skip to Step 4. 
 
-- If you notice mistakes, details left out, are unsuccessful in using this guide, or wish to ask me a question, please go via the usual GitHub routes to request changes, or <a>Tweet me</a>.
+- If you notice mistakes, details left out, are unsuccessful in using this guide, or wish to ask me a question, please go via the usual GitHub routes to request changes, or <a href="https://twitter.com/masoncusack">Tweet me</a>.
 
 ### Prerequisites
 
 A few things you'll need to get set up to run and deploy this project:
 
  - Python 3 - download at https://python.org 
- - <a>Docker for Windows</a> - OG Docker will work of course. If you are running Linux, you should be able to follow along. For Windows users, make sure Docker commands are working when executed in Powershell, as that is what we will use for building and pushing images for deployment.
- - An Azure subscription, <a>get one (or start a free trial) here</a>.
- - A code editor (I recommend <a>VS Code</a> nowadays).
- - A local git installation. <a>Get git here</a>.
- - <a>VSTS</a> and <a>Docker Hub</a> accounts (GitHub also useable for source code, but VSTS will be used to track our builds on deployment) 
+ - <a href="https://www.docker.com/docker-windows">Docker for Windows</a> - OG Docker will work of course. If you are running Linux, you should be able to follow along. For Windows users, make sure Docker commands are working when executed in Powershell, as that is what we will use for building and pushing images for deployment.
+ - An Azure subscription, <a href="https://azure.microsoft.com/en-gb/">get one (or start a free trial) here</a>.
+ - A code editor (I recommend <a href="https://code.visualstudio.com/">VS Code</a> nowadays).
+ - A local git installation. <a href="https://git-scm.com/">Get git here</a>.
+ - <a href="https://visualstudio.microsoft.com/team-services/">VSTS</a> and <a href="https://hub.docker.com/">Docker Hub</a> accounts (GitHub also useable for source code, but VSTS will be used to track our builds on deployment) 
  
 ### Step 1: Cloning the project code and local setup
 
@@ -52,7 +52,7 @@ As a Python package like any other, Flask is quite easy to set up, and we do it 
 ```
 The need for `import Flask` is obvious, but note that `jsonify` will be used to format the result we deliver to the caller of our API.
 
-`from flask_cors import CORS` is then used to enable `CORS(app)` on line 8. This is simply useful for testing, as it will allow calls to the API from all potential origins, including local development builds of frontend apps. Handy, but be aware that is a security risk in practice. You can <a>learn more about it here</a>.
+`from flask_cors import CORS` is then used to enable `CORS(app)` on line 8. This is simply useful for testing, as it will allow calls to the API from all potential origins, including local development builds of frontend apps. Handy, but be aware that is a security risk in practice. You can <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">learn more about it here</a>.
 
 `app = Flask(__name__)` is then simply the initialization of our app, before it is wrapped to allow cross-origin access.
 
@@ -166,7 +166,7 @@ Just a couple of things to double check:
 
 - You have a VSTS account to use with Azure (this'll give us handy build reports and logs as we attempt to deploy on the cloud - if your build is working locally but failing on deployment, all the juicy info will be in these logs). 
 
-Open the <a>Azure portal</a>, and click "create a resource".
+Open the <a href="https://portal.azure.com">Azure portal</a>, and click "create a resource".
 
 Search "web app containers" and it should be the first result: "Web App for Containers" by publisher "Microsoft" in category "web". 
 
