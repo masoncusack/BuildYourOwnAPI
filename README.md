@@ -3,43 +3,40 @@
 ### Contents
 
 
-<a>Introduction</a>
+- <a href="https://github.com/masoncusack/buildyourownapi#introduction">Introduction</a>
 
 
-<a>Prerequisites</a>
+- <a href="https://github.com/masoncusack/buildyourownapi#prerequisites">Prerequisites</a>
 
 
-<a>Cloning project and local setup</a>
+- <a href="https://github.com/masoncusack/buildyourownapi#step-1-cloning-the-project-code-and-local-setup">Cloning the project and local setup</a>
 
 
-<a>The Flask API - What's in the code? (And how to run it)</a>
+- <a href="https://github.com/masoncusack/buildyourownapi#step-2-the-flask-api---whats-in-the-code-and-how-to-run-it">The Flask API - What's in the code? (And how to run it)</a>
 
 
-<a>Docker, Build!</a>
+- <a href="https://github.com/masoncusack/buildyourownapi#step-3-docker-build">Docker, Build!</a>
 
 
-<a>Pushing your built image to Docker Hub</a>
+- <a href="https://github.com/masoncusack/buildyourownapi#step-4-pushing-your-built-image-to-docker-hub">Pushing your built image to Docker Hub</a>
 
 
-<a>Azure Web Apps for Containers</a>
+- <a href="https://github.com/masoncusack/buildyourownapi#step-5-azure-web-apps-for-containers">Azure Web Apps for Containers</a>
 
 
-<a>Setting Up Continuous Deployment in Azure</a>
+- <a href="https://github.com/masoncusack/buildyourownapi#step-6-setting-up-continuous-deployment-in-azure">Setting Up Continuous Deployment in Azure</a>
 
 
-<a>Azure Web Apps for Containers</a>
+- <a href="https://github.com/masoncusack/buildyourownapi#step-7-sync-and-deploy">Sync and Deploy!</a>
 
 
-<a>Sync and Deploy!</a>
+- <a href="https://github.com/masoncusack/buildyourownapi#test-your-api">Test your API</a>
 
 
-<a>Test your API</a>
+- <a href="https://github.com/masoncusack/buildyourownapi#conclusion">Conclusion</a>
 
 
-<a>Conclusion</a>
-
-
-<a>Common Problems</a>
+- <a href="https://github.com/masoncusack/buildyourownapi#common-problems">Common Problems</a>
 
 
 ### Introduction
