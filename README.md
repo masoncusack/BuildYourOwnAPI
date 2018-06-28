@@ -43,7 +43,7 @@ It is in fact a simple process, but a poorly documented one in which your steps 
 
 Notes: 
 
-- If you are comfortable with the use and purpose of Flask and Docker and are just looking for the exact steps to deployment on Azure, skip to Step 4. 
+- If you are comfortable with the use and purpose of Flask and Docker and are just looking for the exact steps to deployment on Azure, <a href="https://github.com/masoncusack/buildyourownapi#step-4-pushing-your-built-image-to-docker-hub">skip to Step 4</a>. 
 
 - If you notice mistakes, details left out, are unsuccessful in using this guide, or wish to ask me a question, please go via the usual GitHub routes to request changes, or <a href="https://twitter.com/masoncusack">tweet me</a>.
 
@@ -287,7 +287,7 @@ In the Deployment Center, after a few minutes of "configuring deployment", you s
 
 ![Deployment center upon successful deployment](./images/successfulBuildSetup.jpg)
 
-Which means your app has deployed successfully on the cloud. It does not, however, tell us the most important thing - whether your app has built successfully once deployed. This we can check by selecting "build definition" under Successfully setup Continuous Delivery and triggered build" in the deployment center.
+Which means your app has deployed successfully on the cloud. It does not, however, tell us the most important thing - whether your app has built successfully once deployed. This we can check by selecting "build definition" under "Successfully setup Continuous Delivery and triggered build" in the deployment center.
 
 This will take us to the VSTS project used to build the docker image, in which you should see:
 
@@ -318,7 +318,7 @@ Note:
 
 There you have it! You've built a custom API using Python, Flask, Docker, and hosted it in the Azure cloud. Please let me know what you build with this new capability.
 
-And of course if you had any problems or questions along the way, please submit an issue, <a href="mailto:t-macusa@microsoft.com?Subject=BuildYourOwnAPI">email me at t-macusa@microsoft.com</a>, or <a href="https://twitter.com/masoncusack">tweet me</a> at @masoncusack.
+And of course if you had any problems or questions along the way, please submit an issue, <a href="mailto:t-macusa@microsoft.com?Subject=BuildYourOwnAPI">email me</a>, or <a href="https://twitter.com/masoncusack">tweet me</a> at @masoncusack.
 
 ### Common problems
 
