@@ -33,12 +33,6 @@
 - <a href="https://github.com/masoncusack/buildyourownapi#test-your-api">Test your API</a>
 
 
-- <a href="https://github.com/masoncusack/buildyourownapi#conclusion">Conclusion</a>
-
-
-- <a href="https://github.com/masoncusack/buildyourownapi#common-problems">Common Problems</a>
-
-
 ### Introduction
 
 Hello! You're looking at a guide and open source sample for Dockerized Flask apps on Azure. Specifically, we'll be using a combination of Python, the <a href="https://azure.microsoft.com/en-gb/">Azure</a> Portal, and <a href="https://www.docker.com/">Docker</a>, to build and deploy a pre-packaged text summarization model via a <a href="http://flask.pocoo.org/">Flask API</a>, running on a Docker container, in the cloud.
