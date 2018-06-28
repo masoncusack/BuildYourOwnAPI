@@ -2,11 +2,11 @@
 
 ### Introduction
 
-Hello! You're looking at a guide and open source sample for Dockerized Flask apps on Azure. Specifically, we'll be using a combination of Python, the <a href="https://azure.microsoft.com/en-gb/">Azure</a> Portal, and <a href="https://www.docker.com/">Docker</a>, to build and deploy a pre-packaged text summarization model via a <a href="http://flask.pocoo.org/">Flask API</a>, running on a Linux image, in the cloud.
+Hello! You're looking at a guide and open source sample for Dockerized Flask apps on Azure. Specifically, we'll be using a combination of Python, the <a href="https://azure.microsoft.com/en-gb/">Azure</a> Portal, and <a href="https://www.docker.com/">Docker</a>, to build and deploy a pre-packaged text summarization model via a <a href="http://flask.pocoo.org/">Flask API</a>, running on a Docker container, in the cloud.
 
-In doing so, we'll set up a pipeline for continuous iteration and deployment of your script - whether it continues to use a package like Gensim to do the heavy lifting, or consists of a pickled custom TensorFlow, CNTK, or Torch model you wish to expose as a prediction endpoint. That's assuming you're doing machine learning - you can also use this sample to bootstrap any alternative Python code you might want to deploy as an API!
+In doing so, we'll set up a pipeline for continuous iteration and deployment of your service - whether it continues to use a package like Gensim to do the heavy lifting, or consists of a pickled custom TensorFlow, CNTK, or Torch model you wish to expose as a prediction endpoint. That's assuming you're doing machine learning - you can also use this sample to bootstrap any alternative Python code you might want to deploy as an API!
 
-As is common, it is in fact a simple process, but a poorly documented one in which your steps must be precise, and errors in the event of a misstep are often unhelpful. I'm here to help with that!
+It is in fact a simple process, but a poorly documented one in which your steps must be precise, and errors in the event of a misstep are often unhelpful. I'm here to help with that!
 
 Notes: 
 
@@ -18,12 +18,12 @@ Notes:
 
 A few things you'll need to get set up to run and deploy this project:
 
- - Python 3 - download at https://python.org 
+ - Python 3 - download at https://python.org (remembering to check the little box 'add Python 3.x to PATH')
  - <a href="https://www.docker.com/docker-windows">Docker for Windows</a> - OG Docker will work of course. If you are running Linux, you should be able to follow along. For Windows users, make sure Docker commands are working when executed in Powershell, as that is what we will use for building and pushing images for deployment.
  - An Azure subscription, <a href="https://azure.microsoft.com/en-gb/">get one (or start a free trial) here</a>.
  - A code editor (I recommend <a href="https://code.visualstudio.com/">VS Code</a> nowadays).
  - A local git installation. <a href="https://git-scm.com/">Get git here</a>.
- - <a href="https://visualstudio.microsoft.com/team-services/">VSTS</a> and <a href="https://hub.docker.com/">Docker Hub</a> accounts (GitHub also useable for source code, but VSTS will be used to track our builds on deployment) 
+ - <a href="https://visualstudio.microsoft.com/team-services/">VSTS</a> and <a href="https://hub.docker.com/">Docker Hub</a> accounts (GitHub also useable for source code, but VSTS will be used to track our builds on deployment)
  
 ### Step 1: Cloning the project code and local setup
 
@@ -35,7 +35,7 @@ Among many things, this will get you the source code in `/src/app`, which I at l
 
 There is also a `requirements.txt` file which contains everything you need to run the code. If wishing to run the Python code locally (before building with docker, which will do this for you), use the command `pip install -r requirements.txt` from the `/app` directory in your favourite terminal. 
 
-> Incidentally, the `DOCKERFILE` inside the `/app` directory will do this automatically on local builds and first deployment, meaning the deployment of new functionalities can take a short time to kick in. We'll come back to that later.
+> Incidentally, the `DOCKERFILE` inside the `/src/app` directory will do this automatically on local builds and first deployment, meaning the deployment of new functionalities can take a short time to kick in. We'll come back to that later.
 
 Anyway, after some installs, you should now be set up to run the code locally.
 
@@ -51,7 +51,7 @@ As a Python package like any other, Flask is quite easy to set up, and we do it 
 ```
 The need for `import Flask` is obvious, but note that `jsonify` will be used to format the result we deliver to the caller of our API.
 
-`from flask_cors import CORS` is then used to enable `CORS(app)` on line 8. This is simply useful for testing, as it will allow calls to the API from all potential origins, including local development builds of frontend apps. Handy, but be aware that is a security risk in practice. You can <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">learn more about it here</a>.
+`from flask_cors import CORS` is then used to enable `CORS(app)` on line 8. This is simply useful for testing, as it will allow calls to the API from all potential origins, including local development builds of frontend apps. Handy, but be aware that it could be a security risk in practice. You can <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">learn more about it here</a>.
 
 `app = Flask(__name__)` is then simply the initialization of our app, before it is wrapped to allow cross-origin access.
 
@@ -124,19 +124,20 @@ Docker will now attempt to compile the contents of the app directory using the `
 
 A couple of notes on this:
 
-- My system is building from cache because I've already run this command before. Unless you tell it to, docker won't run python installations it's instructed to in the dockerfile on the local image if it doesn't detect changes to requirements.txt. Bear in mind therefore that build times can vary.
+- My system is building from cache because I've already run this command before. Unless you tell it to, docker won't run python installations it's instructed to in the dockerfile on the local image if it doesn't detect changes to requirements.txt. Bear in mind therefore that build times can vary. On first build, you'll have to sit through a bunch of pip installs.
 
 
-- So you know what you should be seeing, in this case my Docker Hub account username is macusa, and my project title sdgsummarizerdocker. The tag `latest` is added optionally, to keep track of multiple versions with the same name. Just append it onto your project name with a colon separating, if you want it. 
+- In this case my Docker Hub account username is macusa, and my project title sdgsummarizerdocker. The tag `latest` is added optionally, to keep track of multiple versions with the same name. Just append it onto your project name with a colon separating, if you want it.
 
 You can also tag an image after the fact using `docker tag your-image docker-hub-username/project-title:desired-tag`
 
-You can run and test your container locally from this point using `docker run REPOSITORY`, where `REPOSITORY` is the value in the column with heading `REPOSITORY` when you run `docker images`. If following along, it should be `docker-hub-username/project-title`.
+You can test your container locally from this point using `docker run REPOSITORY`, where `REPOSITORY` is the value in the column with heading `REPOSITORY` when you run `docker images`. If you've been following along, it should be `docker-hub-username/project-title`.
 
 Note that the Docker container may take longer to kick in than the Flask app when running locally.
 
 At any time, you can use the command `docker ps` to view currently running containers and their status.
-//TODO: successfully test locally running docker container and finalise instruction (doesn't run at 127.0.0.1:5000 as with Flask)
+
+If it runs at this stage, then it'll deploy.
 
 #### Push, push, push!
 
@@ -157,7 +158,7 @@ It's now a good idea to go to your Docker Hub repo, and make sure that the "last
 
 ![view of docker hub repo with "last pushed" time value of "6 days ago"](./images/dockerhub.jpg)
 
-Immediately after a successful push, it should say "a few seconds ago"./project-title/docker-hub-username
+Immediately after a successful push, it should say "a few seconds ago".
 
 ### Step 5: Azure Web Apps for Containers
 
