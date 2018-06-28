@@ -1,5 +1,47 @@
 # Build-Your-Own API: Write and Deploy Dockerized Flask Apps on Azure
 
+### Contents
+
+
+<a>Introduction</a>
+
+
+<a>Prerequisites</a>
+
+
+<a>Cloning project and local setup</a>
+
+
+<a>The Flask API - What's in the code? (And how to run it)</a>
+
+
+<a>Docker, Build!</a>
+
+
+<a>Pushing your built image to Docker Hub</a>
+
+
+<a>Azure Web Apps for Containers</a>
+
+
+<a>Setting Up Continuous Deployment in Azure</a>
+
+
+<a>Azure Web Apps for Containers</a>
+
+
+<a>Sync and Deploy!</a>
+
+
+<a>Test your API</a>
+
+
+<a>Conclusion</a>
+
+
+<a>Common Problems</a>
+
+
 ### Introduction
 
 Hello! You're looking at a guide and open source sample for Dockerized Flask apps on Azure. Specifically, we'll be using a combination of Python, the <a href="https://azure.microsoft.com/en-gb/">Azure</a> Portal, and <a href="https://www.docker.com/">Docker</a>, to build and deploy a pre-packaged text summarization model via a <a href="http://flask.pocoo.org/">Flask API</a>, running on a Docker container, in the cloud.
@@ -10,7 +52,7 @@ It is in fact a simple process, but a poorly documented one in which your steps 
 
 Notes: 
 
-- If you are comfortable with the use and purpose of Flask and Docker and just looking for the exact steps to deployment, skip to Step 4. 
+- If you are comfortable with the use and purpose of Flask and Docker and are just looking for the exact steps to deployment on Azure, skip to Step 4. 
 
 - If you notice mistakes, details left out, are unsuccessful in using this guide, or wish to ask me a question, please go via the usual GitHub routes to request changes, or <a href="https://twitter.com/masoncusack">tweet me</a>.
 
@@ -39,7 +81,7 @@ There is also a `requirements.txt` file which contains everything you need to ru
 
 Anyway, after some installs, you should now be set up to run the code locally.
 
-### Step 2: Flask - What's in the code? (And how to run it).
+### Step 2: The Flask API - What's in the code? (And how to run it).
 
 Upon opening `/app/app.py`, you should notice a few abnormalities when compared to your normal Python script.
 
@@ -112,8 +154,6 @@ Go to Powershell (or your favourite terminal).
 
 After logging in to your docker hub account using `docker login --username=yourhubusername`, and entering your password when prompted...
 
-#### Build, build, build!
-
 From the root directory (above the `app` directory), run the command 
 
 `docker build app -t docker-hub-username/docker-hub-project-name:optionaltag`
@@ -124,7 +164,7 @@ Docker will now attempt to compile the contents of the app directory using the `
 
 A couple of notes on this:
 
-- My system is building from cache because I've already run this command before. Unless you tell it to, docker won't run python installations it's instructed to in the dockerfile on the local image if it doesn't detect changes to requirements.txt. Bear in mind therefore that build times can vary. On first build, you'll have to sit through a bunch of pip installs.
+- My system is building from cache because I've already run this command before. Unless you tell it to, docker won't run python installations it's instructed to in the dockerfile on the local image if it doesn't detect changes to requirements.txt. Bear in mind therefore that build times can vary. On first build, you'll have to sit through a bunch of pip installs. That's your sign for success!
 
 
 - In this case my Docker Hub account username is macusa, and my project title sdgsummarizerdocker. The tag `latest` is added optionally, to keep track of multiple versions with the same name. Just append it onto your project name with a colon separating, if you want it.
@@ -139,16 +179,15 @@ At any time, you can use the command `docker ps` to view currently running conta
 
 If it runs at this stage, then it'll deploy.
 
-#### Push, push, push!
-
 You can run `docker images` at any time to see your recently built images. You should see your latest build at the top with its associated tag (if assigned). Note that it has been assigned an `IMAGE ID`.
 
-This is what we're going to push to Docker Hub, and then load into an Azure App Service. 
-/desired-tag/project-title/docker-hub-username/optionaltag/docker-hub-project-name/docker-hub-username
+This is what we're going to push to Docker Hub, and then load into an Azure App Service.
 
-### Step 4: Push the latest built image to Docker Hub
+### Step 4: Pushing your built image to Docker Hub
 
 Check that your latest build is ready with the `docker images` command.
+
+If you haven't already, sign into Docker using `docker login --username=yourhubusername`, followed by your password when prompted.
 
 Now run `docker push docker-hub-username/project-title`
 
@@ -158,7 +197,7 @@ It's now a good idea to go to your Docker Hub repo, and make sure that the "last
 
 ![view of docker hub repo with "last pushed" time value of "6 days ago"](./images/dockerhub.jpg)
 
-Immediately after a successful push, it should say "a few seconds ago".
+Immediately after a successful push, this should say "a few seconds ago".
 
 ### Step 5: Azure Web Apps for Containers
 
@@ -173,7 +212,7 @@ Just a couple of things to double check:
 
 Open the <a href="https://portal.azure.com">Azure portal</a>, and click "create a resource".
 
-Search "web app containers" and it should be the first result: "Web App for Containers" by publisher "Microsoft" in category "web". 
+Search "web app containers" and it should be the first result: "Web App for Containers" by publisher "Microsoft" in category "Web". 
 
 ![azure web apps for containers in marketplace/resource menu](./images/webappcontainers.jpg)
 
@@ -235,7 +274,7 @@ This'll open up another side menu with fields to fill. Required inputs are below
     
 - *Account name*: Select the VSTS account you wish to use for this from the dropdown.
     
-- *Project name*: Select the Project associated with that account that you'd like to build from. 
+- *Project name*: Select the Project associated with that account that you'd like to build from (this can be an empty project). 
     
 - Note you can also create a new account if you don't have one yet, in which case this part of the setup will be slightly different.
     
@@ -243,17 +282,17 @@ This'll open up another side menu with fields to fill. Required inputs are below
     
 - *Deploy to staging*: Select `Yes` if you want to deploy a preview version of the API before a production version, so you can demo it and test it before going live. In this case '-deployment-slot-name' (your next input) will be appended to the end of the deployed endpoint (url), before 'azurewebsites.net'. For example https://buildyourownapi-staging.azurewebsites.net is a staging slot of the web app buildyourownapi, for which the deployment slot was named 'staging'.
 
-- *Deployment slot*: On first deployment you'll have to create a new slot. Call it whatever you want. Accept the default `staging` if you're okay with that, but if wanting to keep it more private, you could create and use a random GUID you only give to your team for testing, or use a keyphrase.
+- *Deployment slot*: On first deployment you'll have to create a new slot. Call it whatever you want. Accept the default `staging` if you're okay with that, but if wanting to keep it more private, you could create and use a random GUID you only give to your team for testing, or use a passphrase of some kind.
     
-Note that whatever you do, this endpoint will be public once deployed. If wanting to test your API offline, just run the flask app locally and test against localhost. 
+Note that whatever you do, this endpoint will be public once deployed. If wanting to test your API offline, just <a href="https://github.com/masoncusack/buildyourownapi#running-and-testing">run the flask app locally and test against localhost</a> as before.
 
-Note also that you will have to click "ok" at the bottom of the current blade after entering each of these, to save your changes.
+Note also that you will have to click "ok" at the bottom of the sections described the above after completing each, to save your changes.
 
 ### Step 7: Sync and deploy!
 
 Finally, click "ok" and you'll be taken back to the deployment center to watch as your API deploys. If you don't get a notification 'deploying' or 'deploying in progress', or see any other signs of life, click "sync" from within the deployment center to kick it into action.
 
-In the Deployment Center after a few minutes of "configuring deployment" you should see:
+In the Deployment Center, after a few minutes of "configuring deployment", you should see:
 
 ![Deployment center upon successful deployment](./images/successfulBuildSetup.jpg)
 
@@ -265,24 +304,24 @@ This will take us to the VSTS project used to build the docker image, in which y
 
 If instead it says "failed", click the latest entry under "Recently Completed" to view the logs and see what went wrong.
 
-In future, after committing new source code or Docker images, you can ensure redeployment of your updated API just by clicking "sync" from the Deployment Center, though it should theoretically kick in immediately after you've pushed.
+In future, after committing new source code or Docker images, you can ensure redeployment of your updated API just by clicking "sync" from the Deployment Center, though it should theoretically kick in immediately after you've pushed. Just come back here to double check if needed.
 
 
 ### Test your API
 
-To try calling your API, all you need is a web browser. 
+All you need now is a web browser.
 
 In the side menu of your app service, click `Deployment slots`. You'll see a table with name, status, and app service plan columns. Click on a slot with status 'running' and you'll be taken to an overview page for that instance. From here you can click `browse` to call the root endpoint of that API.
 
 Note:
 
-- It may take a little time for the API to kick in, even after a successful deployment. Don't be afraid to give it 10 minutes before deciding that something's wrong, even after an apparently successful build, and particularly on the first deployment.
+- It may take a little time for the API to kick in, even after a successful deployment. Don't be afraid to give it 10 minutes before deciding that something's wrong, even after an apparently successful build, and particularly on the first deployment. "Internal server errors" are commonly a result of errors in your app.py source code.
 
 
 - You can take the url of this endpoint (now in the address bar of your browser) and call it again at any point in the future (not only from the Azure portal).
 
 
-- The way the sample is set up, on calling this root endpoint, instructions for other endpoints to try (including for summarization and keywords) will be returned, with the message "Hello, World!". Try using these endpoints, by pasting your own text into the query string as variable `text`. Note that for both summary adn keywords to be returned, you will need a substantial body of text. I'd suggest using a news article or similar. Too little text and with this code you'll cause an internal server error (a good extension task for both of us would be to handle this error in the eventuality that the received text body is too small for gensim to process).
+- The way the sample is set up, on calling this root endpoint, instructions for other endpoints to try (including for summarization and keywords) will be returned, with the message "Hello, World!". Try using these endpoints, by pasting your own text into the query string as variable `text`. Note that for both summary and keywords to be returned, you will need a substantial body of text. I'd suggest using a news article or similar. Too little text and with this code you'll cause an internal server error (a good extension task for both of us would be to handle this error in the eventuality that the received text body is too small for gensim to process).
 
 ### Conclusion
 
@@ -292,6 +331,6 @@ And of course if you had any problems or questions along the way, please submit 
 
 ### Common problems
 
-I'll be updating this entry over the next few days with common errors and problems that can occur during setup. Though it seems simple, with one wrong move this can be a fiddly process, and it took me a full day to figure out precisely what to enter where in order to set things up properly and get my web app running.
+I'll be updating this entry in the days and weeks ahead with common errors and problems that can occur during setup (including those you bring to my attention). Though it seems simple, with one wrong move this can be a fiddly process, and it originally took me a full day to figure out precisely what to enter where in order to set things up properly and get my web app running.
 
 Of course, if you notice a bug or common "gotcha" that I haven't, feel free to suggest new additions to this section. I think all good documentation should have examples of common errors, and tips on to fix them.
