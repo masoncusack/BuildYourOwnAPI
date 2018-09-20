@@ -322,6 +322,10 @@ And of course if you had any problems or questions along the way, please submit 
 
 ### Common problems
 
-I'll be updating this entry in the days and weeks ahead with common errors and problems that can occur during setup (including those you bring to my attention). Though it seems simple, with one wrong move this can be a fiddly process, and it originally took me a full day to figure out precisely what to enter where in order to set things up properly and get my web app running.
+#### Docker for Windows not installing: 
 
-Of course, if you notice a bug or common "gotcha" that I haven't, feel free to suggest new additions to this section. I think all good documentation should have examples of common errors, and tips on to fix them.
+Docker asks you to manually install containers, changing the necessary settings and restarting doesn't help.
+
+> In Hyper-V, [try turning on MobyVM manually](https://github.com/docker/for-win/issues/1631).
+
+Please feel free to submit an issue and any associated fixes, and I'll post them here. Or, see the [Issues](https://github.com/masoncusack/BuildYourOwnAPI/issues) for yourself.
