@@ -215,7 +215,7 @@ You'll be greeted by the usual screen we get upon setting up any resource in Azu
 
 >  *Subscription*: The subscription you wish to use to pay for this app service and the resources it relies on.
 
->  *Resource group*: The resource group you with to contain the resources used by this app service (storage etc.)
+>  *Resource group*: The resource group you wish to contain the resources used by this app service (storage etc.)
 
 >  *App Service plan/Location*: Select the app service plan you want this app to use. 
 
